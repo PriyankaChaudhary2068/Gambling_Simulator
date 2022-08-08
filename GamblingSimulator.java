@@ -3,42 +3,48 @@ package com.bridgelabz.gamblingSimulator;
 
 public class GamblingSimulator {
 	
-	 public static void main(String[] args) {
-		 
-	        System.out.println(" Welcome To The Gambling Simulation Problem");
-	        int total_Amount = 100;
-	        int bet_Amount = 1;
-	        while (total_Amount > 50 && total_Amount < 150) {
-	            int gameAmount = (int) Math.floor(Math.random() * 10) % 2;
+	public static final double INITIAL_STAKE = 100;
+	public static final double STAKE_BET = 1;
+	public static final int NUMBER_OF_PLAYS =20;
+	public static int stake = 0;
+	
 
-	            System.out.println("Gambler received amount : " + gameAmount);
+	public static boolean winOrLose() {
 
-	            if (bet_Amount == gameAmount) {
-	                System.out.println("Gambler won the current game");
-	                total_Amount = total_Amount + bet_Amount;
-	                System.out.println("Total Current case of gambler has : " + total_Amount);
-
-	            } else {
-	                System.out.println("Gambler lost the  current game");
-	                total_Amount = total_Amount - bet_Amount;
-	                System.out.println("Total Current case of gambler has : " + total_Amount);
-
-	            }
-	        }
-	        System.out.println("Total amount received by gambler has :" + total_Amount);
-
-	        if (total_Amount == 50 || total_Amount == 150) {
-	            System.out.println(".....................");
-	            System.out.println("Player would like to resign for current day !");
-	            System.out.println("....................");
-	        }
-
-
-	    }
-
-
+		if ((int)Math.floor(Math.random()*10)%2 == 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
+	public static void gamblerDecision() {
+		boolean resign = false;
+		
+		while(resign == false) {
+			
+			if (winOrLose()) {
+				stake ++;
+			} else {
+				stake --;
+			}
+			if (stake >= INITIAL_STAKE + (INITIAL_STAKE * 0.5) || stake <= INITIAL_STAKE / 2) {
+				resign = true;
+			} 
+			
+		}
+	}
+
+	public static void main(String[] args) {
+		System.out.println(" Welcome To The Gambling Simulation Problem");
+		double balance = 0;
 	
-	
-	
+		for(int numberOfDays = 0; numberOfDays<= NUMBER_OF_PLAYS ; numberOfDays++) {
+			int stake = 100;
+			gamblerDecision();
+			balance = balance+stake; 			
+		}
+			System.out.println("Total amount : " + balance);
+		}
+
+}	
